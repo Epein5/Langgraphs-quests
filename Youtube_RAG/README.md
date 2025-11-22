@@ -1,97 +1,83 @@
 # YouTube RAG Assistant
 
-An interactive chatbot that helps you ask questions about YouTube videos using RAG (Retrieval-Augmented Generation).
+Chat with YouTube videos. Ask questions, get answers. Simple as that.
 
-## Features
+## What it does
 
-- 🎥 Download and transcribe YouTube videos
-- 💾 Store transcripts in local SQLite database
-- 🔍 Semantic search across video content
-- 💬 Interactive terminal-based chat interface
-- 📝 Detailed logging of all operations
+Ever wanted to ask a YouTube video a question instead of scrubbing through timestamps? That's what this does. Drop a URL, ask anything, get answers pulled straight from the transcript.
 
-## Setup
+**How it works:**
+- Downloads and transcribes any YouTube video
+- Stores everything locally (SQLite)
+- Uses semantic search to find relevant parts
+- Streams answers in real-time
 
-1. Install dependencies:
+**Built with:** LangGraph + Google Gemini + RAG
+
+## Quick Start
+
+1. Install stuff:
 ```bash
 pip install -r requirements.txt
 ```
 
-2. Set up environment variables in `.env`:
+2. Add your Google API key to `.env`:
 ```
-GOOGLE_API_KEY=your_google_api_key_here
+GOOGLE_API_KEY=your_key_here
 ```
 
-## Usage
-
-### Option 1: Using the run script (Recommended)
-
+3. Run it:
 ```bash
-./run.sh
-```
-
-### Option 2: Using Python directly
-
-```bash
-# Activate virtual environment first
-source ../venc/bin/activate
-
-# Run the chatbot
 python main.py
 ```
 
-### Option 3: Direct Python path
+## How to use
 
-```bash
-/path/to/venv/bin/python main.py
-```
-
-### Example Conversation
+Just talk to it naturally:
 
 ```
-👤 You: Hey
+You: https://www.youtube.com/watch?v=arj7oStGLkU
 
-💬 [LLM Response]: Hello! I'm TubeHelper, your YouTube video assistant. Please provide a YouTube URL...
+[State Update] Loading existing video data...
+   Loaded 109 chunks and 109 vectors
 
-👤 You: I want to search for this video: https://www.youtube.com/watch?v=dQw4w9WgXcQ What is the video about?
+[Assistant]: Video is loaded and ready. What would you like to know?
 
-🔧 [Tool Call]: youtube_video_data_checker
-📂 [State Update] Loading existing video data...
-✅ Loaded 10 chunks and 10 vectors
+You: What's inside a procrastinator's mind?
 
-🔧 [Tool Call]: perform_rag_search
-🔍 [RAG Search] Searching video content...
-💬 [RAG Response]: Based on the video, here are the most relevant sections:
-...
+[RAG Search] Searching video content...
+   Found 3 relevant sections
+
+[Assistant]: Inside the mind of a procrastinator, there's an instant-gratification
+monkey that seeks immediate pleasure. This monkey takes over and prevents them from
+reaching important tasks. The video suggests that procrastinators' brains might
+actually be different from other people, and mindfulness training can be twice as
+effective as standard therapy for breaking these habits...
 ```
+
+## Commands
+
+- Paste a YouTube URL to load a video
+- Ask questions about the video
+- Type `exit` or `quit` to leave
+
+That's it. No complicated stuff.
 
 ## Project Structure
 
 ```
 Youtube_RAG/
-├── main.py                 # Main interactive chatbot
-├── pipeline.ipynb          # Jupyter notebook for development/testing
-├── db/                     # SQLite database storage
-└── utils/
-    ├── audio_retriver.py   # YouTube audio download
-    ├── speech_to_text.py   # Audio transcription
-    ├── chunking.py         # Text chunking
-    ├── embeddings.py       # Vector embeddings
-    ├── db_handler.py       # Database operations
-    └── rag_search.py       # Semantic search
+├── main.py                    # Main chat interface
+├── models/state.py            # State management
+├── nodes/                     # Graph nodes (agent, processors, RAG)
+├── routers/                   # Routing logic
+├── tools/                     # LangChain tools
+├── services/                  # Video processing pipeline
+└── utils/                     # Helper functions
 ```
 
-## How It Works
+## Why this exists
 
-1. **Video Check**: When you provide a YouTube URL, it checks if the video is already in the database
-2. **Processing**: If new, it downloads audio, transcribes, chunks, and creates embeddings
-3. **Storage**: All data is stored in SQLite for future queries
-4. **RAG Search**: When you ask a question, it performs semantic search on the chunks
-5. **Response**: Returns the most relevant sections from the video
+Because sometimes you want to know what's in a 2-hour podcast without watching the whole thing. Or you want to quote something but can't remember where it was said. Or you're just lazy and want a video to answer your questions directly.
 
-## Commands
-
-- Type your message normally to chat
-- Provide a YouTube URL to load a video
-- Ask questions about loaded videos
-- Type `exit`, `quit`, or `bye` to end the session
+Built this to learn LangGraph and mess around with RAG. Turned out pretty useful.
