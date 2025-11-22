@@ -8,7 +8,7 @@ def semantic_search(
     query: str,
     vectors: List[List[float]],
     chunks: List[str],
-    top_k: int = 3
+    top_k: int = 5
 ) -> List[str]:
     """
     Perform semantic search to find the most similar chunks to a query.

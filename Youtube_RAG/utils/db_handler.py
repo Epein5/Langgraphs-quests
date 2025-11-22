@@ -56,12 +56,12 @@ def store_video_data(
         
         conn.commit()
         conn.close()
-        
-        print(f"✅ Stored: {primary_key}")
+
+        print(f"Stored: {primary_key}")
         return True
-        
+
     except Exception as e:
-        print(f"❌ Error: {e}")
+        print(f"Error: {e}")
         return False
 
 
@@ -86,9 +86,9 @@ def retrieve_video_data(primary_key: str) -> Optional[Dict]:
         
         row = cursor.fetchone()
         conn.close()
-        
+
         if not row:
-            print(f"⚠️ Not found: {primary_key}")
+            print(f"Not found: {primary_key}")
             return None
         
         return {
@@ -100,7 +100,7 @@ def retrieve_video_data(primary_key: str) -> Optional[Dict]:
             'created_at': row['created_at'],
             'updated_at': row['updated_at']
         }
-        
+
     except Exception as e:
-        print(f"❌ Error: {e}")
+        print(f"Error: {e}")
         return None

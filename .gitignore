@@ -1,3 +1,4 @@
 /venc
 .env
 __pycache__/
+/db
